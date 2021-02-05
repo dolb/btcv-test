@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('PONG')
 })
 
-async function getInputData(
+function getInputData(
   unspent,
 ) {
   return {
