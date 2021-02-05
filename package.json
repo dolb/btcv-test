@@ -1,0 +1,32 @@
+{
+  "name": "btcv-payouts",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "CONFIG=local nodemon --exec babel-node src/index.jsx",
+    "build": "babel src -d build"
+  },
+  "license": "WHATEVER",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bip32": "^2.0.6",
+    "bip39": "^3.0.3",
+    "bitcoinjs-lib": "^5.2.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3",
+    "ramda": "^0.27.1",
+    "regtest-client": "0.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/node": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "eslint": "^7.19.0",
+    "nodemon": "^2.0.7"
+  }
+}
