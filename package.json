@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "CONFIG=local nodemon --exec babel-node src/index.jsx",
+    "start": "CONFIG=local nodemon --exec babel-node src/index.js",
     "build": "babel src -d build"
   },
   "license": "WHATEVER",
