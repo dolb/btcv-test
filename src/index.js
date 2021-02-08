@@ -21,7 +21,10 @@ function getInputData(
   return {
     hash: unspent.id,
     index: unspent.idx,
-    script: Buffer.from(unspent.scriptHex, 'hex'),
+    witnessUtxo: {
+      value: unspent.balance,
+      script: Buffer.from(unspent.scriptHex, 'hex'),
+    }
   };
 }
 
@@ -33,8 +36,8 @@ const processTest = async (req, res) => {
   const netParams = btcvjs.alt_networks.bitcoinvault
   try {
     var txb = new btcvjs.Psbt({network: netParams});
-    const { balance, fee, unspents } = data;
-    const whatIsLeft = balance - fee - amount;
+    const { totalBalance, fee, unspents } = data;
+    const whatIsLeft = totalBalance - fee - amount;
     unspents.forEach(el => {
       const input = getInputData(el)
       console.log(input);
@@ -42,10 +45,14 @@ const processTest = async (req, res) => {
     })
     txb.addOutput({address: sendTo, value: amount});
     txb.addOutput({address: sendRestTo, value: whatIsLeft});
+    console.log(txb);
     unspents.forEach((el, i) => {
       txb.signInput(i, btcvjs.ECPair.fromWIF(el.wif , netParams));
     })
-    const body = txb.build(1).toHex();
+
+    txb.finalizeAllInputs();
+  
+    const body = txb.extractTransaction().toHex()
     res.json({result: 'ok', body });
   } catch(e) {
     console.error(e);
