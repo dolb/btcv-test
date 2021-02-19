@@ -32,7 +32,7 @@ export default class TransactionHelper {
         const isScript = !!unspent.isScript
 
         if(isScript) {
-            const p2sh = await this.generateP2SH(unspent.addressBase)
+            const p2sh = await this.generateP2SH()
             return {
                 hash: unspent.id,
                 index: unspent.idx,
@@ -67,8 +67,8 @@ export default class TransactionHelper {
         return address;
     }
 
-    generateP2SH = async (hexString) => {
-        const path = this.preparePath(hexString)
+    generateP2SH = async () => {
+        const path = this.preparePath()
         const node = R.reduce((derrived, p) => derrived = derrived.derive(p), bip32.fromBase58(this._xprv), path)
         const p2wpkh = lib.payments.p2wpkh({ pubkey: node.publicKey, network: netParams })
         return lib.payments.p2sh(
@@ -78,27 +78,25 @@ export default class TransactionHelper {
         )
     }
 
-    generateP2PKH = async (hexString) => {
-        const path = this.preparePath(hexString)
+    generateP2PKH = async () => {
+        const path = this.preparePath()
         const node = R.reduce((derrived, p) => derrived = derrived.derive(p), bip32.fromBase58(this._xprv), path)
         return lib.payments.p2pkh({ pubkey: node.publicKey, network: netParams })
     }
 
 
-    generateAddress = async (hexString) => {
-        const path = this.preparePath(hexString)
+    generateAddress = async () => {
+        const path = this.preparePath()
         const node = R.reduce((derrived, p) => derrived = derrived.derive(p), bip32.fromBase58(this._xprv), path)
         return this.nodeToAddress(node)
     }
 
-    preparePath(input) {
-        return `${input.padStart(input.length + input.length % 8, '0')}0`
-        .match(/.{1,8}/g)
-        .map(el => parseInt(el, 16) % 0x80000000)
+    preparePath() {
+        return [0,0]
     }
 
-    deriveWif = (addressBase) => {
-        const path = this.preparePath(addressBase)
+    deriveWif = () => {
+        const path = this.preparePath()
         const node = R.reduce((derrived, p) => derrived = derrived.derive(p), bip32.fromBase58(this._xprv), path)
         const derrivedWif = node.toWIF()
         return derrivedWif
@@ -124,7 +122,7 @@ export default class TransactionHelper {
             })
 
             unspents.forEach((el, i) => {
-                const derivedWif = this.deriveWif(el.addressBase)
+                const derivedWif = this.deriveWif()
                 txb.signInput(i, lib.ECPair.fromWIF(derivedWif , netParams));
             })
 
