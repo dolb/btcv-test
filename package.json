@@ -4,8 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "CONFIG=local nodemon --exec babel-node src/index.js",
-    "build": "babel src -d build"
+    "start": "nodemon --exec babel-node src/index.js"
   },
   "license": "WHATEVER",
   "dependencies": {
@@ -14,6 +13,7 @@
     "bip39": "^3.0.3",
     "bitcoinjs-lib": "^5.2.0",
     "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "mongodb": "^3.6.3",
     "ramda": "^0.27.1",
@@ -24,9 +24,14 @@
     "@babel/core": "^7.12.10",
     "@babel/eslint-parser": "^7.12.1",
     "@babel/node": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.19.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "webpack": "4.46.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-node-externals": "^2.5.2"
   }
 }
